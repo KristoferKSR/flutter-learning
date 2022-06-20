@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learning_app/quotes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) =>
-            const MyHomePage(title: 'Learning stuff'),
+            MyHomePage(title: 'Learning stuff'),
       ),
       GoRoute(
         path: '/list',
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -60,6 +61,8 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final Uri _url = Uri.parse(
+      'https://www.linkedin.com/in/kristofer-k%C3%A4osaar-609b52189/');
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -77,6 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter += 1;
     });
+  }
+
+  void _launchUrl() async {
+    if (!await launchUrl(widget._url, mode: LaunchMode.externalApplication))
+      throw 'Could not launch';
   }
 
   @override
@@ -117,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text(
-                  'You have pushed the bottom button this many times:',
+                  'You have pushed the + button this many times:',
                 ),
                 Text(
                   '$_counter',
@@ -126,12 +134,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 const Spacer(),
                 Align(
                     alignment: Alignment.bottomCenter,
-                    child: MaterialButton(
-                      onPressed: () => context.push('/list'),
-                      color: Colors.lightBlueAccent,
-                      padding: const EdgeInsets.all(16.0),
-                      child: const Text("Navigate to Quotes"),
-                    ))
+                    child: SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: MaterialButton(
+                          onPressed: () => context.push('/list'),
+                          color: Colors.lightBlueAccent,
+                          padding: const EdgeInsets.all(16.0),
+                          child: const Text("Navigate to Quotes"),
+                        ))),
+                const SizedBox(height: 20.0),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: MaterialButton(
+                          onPressed: () => _launchUrl(),
+                          color: Colors.blueAccent,
+                          padding: const EdgeInsets.all(16.0),
+                          child: const Text("Creator's LinkedIn"),
+                        )))
               ],
             ),
           )),
