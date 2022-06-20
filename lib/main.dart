@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:learning_app/list.dart';
+import 'package:learning_app/quotes.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/list',
         builder: (BuildContext context, GoRouterState state) =>
-        const ListPage(title: 'Quotes'),
+        const QuotesPage(title: 'Quotes'),
       ),
     ],
   );
@@ -74,13 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter += 2;
-    });
-  }
-
-  void _navigateToList() {
-    setState(() {
-      _counter += 2;
+      _counter += 1;
     });
   }
 
@@ -120,19 +114,17 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button (2x) this many times:',
+              'You have pushed the bottom button this many times:',
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            const Text(
-              'Well done'
-            ),
             MaterialButton(
-              onPressed: () => context.go('/list'),
+              onPressed: () => context.push('/list'),
               color: Colors.lightBlueAccent,
-              child: const Text("Navigate"),
+              padding: const EdgeInsets.all(16.0),
+              child: const Text("Navigate to Quotes"),
             )
           ],
         ),

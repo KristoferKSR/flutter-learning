@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dio/dio.dart';
 
-class ListPage extends StatefulWidget {
-  const ListPage({Key? key, required this.title}) : super(key: key);
+class QuotesPage extends StatefulWidget {
+  const QuotesPage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -17,23 +17,30 @@ class ListPage extends StatefulWidget {
   final String title;
 
   @override
-  State<ListPage> createState() => _ListPageState();
+  State<QuotesPage> createState() => _QuotesPageState();
 }
 
-class _ListPageState extends State<ListPage> {
+class _QuotesPageState extends State<QuotesPage> {
+  static const String content = 'content';
+  static const String apiLink = 'https://api.quotable.io/random';
   String data = '';
 
   Future<void> _getText() async {
     var dio = Dio();
-    final response = await dio.get('https://api.quotable.io/random');
+    final response = await dio.get(apiLink);
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      data = response.data['content'].toString();
+      data = response.data[content].toString();
     });
+  }
+
+  @override
+  void initState() {
+    _getText();
   }
 
   @override
@@ -48,15 +55,20 @@ class _ListPageState extends State<ListPage> {
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: true,
+        leading:
+            BackButton(color: Colors.white, onPressed: () => context.pop()),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              data,
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                data,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            )
           ],
         ),
       ),
