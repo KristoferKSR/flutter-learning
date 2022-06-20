@@ -30,17 +30,18 @@ class MyApp extends StatelessWidget {
       routerDelegate: _router.routerDelegate,
     );
   }
+
   final GoRouter _router = GoRouter(
     routes: <GoRoute>[
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) =>
-        const MyHomePage(title: 'Learning stuff'),
+            const MyHomePage(title: 'Learning stuff'),
       ),
       GoRoute(
         path: '/list',
         builder: (BuildContext context, GoRouterState state) =>
-        const QuotesPage(title: 'Quotes'),
+            const QuotesPage(title: 'Quotes'),
       ),
     ],
   );
@@ -93,42 +94,47 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the bottom button this many times:',
+      body: Container(
+          margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+          child: Center(
+            // Center is a layout widget. It takes a single child and positions it
+            // in the middle of the parent.
+            child: Column(
+              // Column is also a layout widget. It takes a list of children and
+              // arranges them vertically. By default, it sizes itself to fit its
+              // children horizontally, and tries to be as tall as its parent.
+              //
+              // Invoke "debug painting" (press "p" in the console, choose the
+              // "Toggle Debug Paint" action from the Flutter Inspector in Android
+              // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+              // to see the wireframe for each widget.
+              //
+              // Column has various properties to control how it sizes itself and
+              // how it positions its children. Here we use mainAxisAlignment to
+              // center the children vertically; the main axis here is the vertical
+              // axis because Columns are vertical (the cross axis would be
+              // horizontal).
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'You have pushed the bottom button this many times:',
+                ),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const Spacer(),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: MaterialButton(
+                      onPressed: () => context.push('/list'),
+                      color: Colors.lightBlueAccent,
+                      padding: const EdgeInsets.all(16.0),
+                      child: const Text("Navigate to Quotes"),
+                    ))
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            MaterialButton(
-              onPressed: () => context.push('/list'),
-              color: Colors.lightBlueAccent,
-              padding: const EdgeInsets.all(16.0),
-              child: const Text("Navigate to Quotes"),
-            )
-          ],
-        ),
-      ),
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: _doubleIncrementCounter,
         hoverColor: Colors.blue,
